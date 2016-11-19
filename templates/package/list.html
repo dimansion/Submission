@@ -1,0 +1,71 @@
+{% extends "package/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Submission</h1>
+<table class="table table-hover">
+  <tr>
+    <th>id</th>
+    <th>fk</th> 
+    <th>name</th>
+    <th>created date</th>
+  </tr>
+  {% for d in sub %}
+  <tr>
+    <td>{{ d.id }}</td>
+    <td>{{ d.fk }}</td> 
+    <td>{{ d.name }}</td>
+    <td>{{ d.created_date}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<a href="{% url 'create' %}" class='btn btn-default'>Add Sub</a>
+
+<h1>Package</h1>
+<table class="table table-hover">
+  <tr>
+    <th>id</th>
+    <th>fk_form</th> 
+    <th>fk_submission</th>
+    <th>name</th>
+    <th>key</th>
+    
+  </tr>
+  {% for data in packages %}
+  <tr>
+    <td>{{ data.id }}</td>
+    <td>{{ data.fk_form }}</td> 
+    <td>{{ data.fk_submission }}</td>
+    <td>{{ data.name }}</td>
+    <td>{{ data.key }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+  Add package
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add package</h4>
+      </div>
+      <div class="modal-body">
+        <form method="POST" class="post-form">{% csrf_token %}
+            {{ form|crispy }}
+          <button type="submit" class="save btn btn-default">Save</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
